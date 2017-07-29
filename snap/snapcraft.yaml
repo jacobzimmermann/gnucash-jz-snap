@@ -13,7 +13,7 @@ confinement: strict
 apps:
   gnucash:
     command: desktop-launch gnucash-launcher
-    plugs: [home, unity7, cups-control, network, gsettings]
+    plugs: [home, unity7, cups-control, network, gsettings, mount-observe]
 
 parts:
   gnucash:
