@@ -1,0 +1,124 @@
+name: gnucash-jz
+version: 2.6.17-0
+summary: GnuCash is personal and small-business financial-accounting software
+description: |
+  Designed to be easy to use, yet powerful and flexible, GnuCash allows you to
+  track bank accounts, stocks, income and expenses. As quick and intuitive to
+  use as a checkbook register, it is based on professional accounting principles
+  to ensure balanced books and accurate reports. 
+
+grade: devel # must be 'stable' to release into candidate/stable channels
+confinement: strict
+
+apps:
+  gnucash:
+    command: desktop-launch gnucash-launcher
+    plugs: [home, unity7, cups-control, network, gsettings]
+
+parts:
+  gnucash:
+    plugin: autotools
+    source: http://downloads.sourceforge.net/sourceforge/gnucash/gnucash-2.6.17.tar.bz2
+    configflags:
+      - --prefix=/snap/gnucash-jz/current
+      - --infodir=/noinst
+      - --mandir=/noinst
+      - --docdir=/noinst
+      - --disable-static
+      - --enable-dbi
+      - --enable-ofx
+      - --enable-aqbanking
+      - --enable-locale-specific-tax
+      - --enable-python
+    build-packages:
+      - guile-2.0-dev
+      - imagemagick
+      - libaqbanking-dev
+      - libdbi-dev
+      - libdbd-sqlite3
+      - libgnome-keyring-dev
+      - libgnomecanvas2-dev
+      - libgoffice-0.8-dev
+      - libofx-dev
+      - libwebkitgtk-dev
+      - libxml2-dev
+      - libxslt1-dev
+      - python
+      - python-dev
+      - xsltproc
+      - zlib1g-dev
+      - intltool
+    stage-packages:
+      - guile-2.0-libs
+      - libaqbanking35
+      - libdbi1
+      - libgnome-keyring0
+      - libgnomecanvas2-0
+      - libgoffice-0.8-8
+      - libgwengui-gtk2-0
+      - libgwenhywfar60
+      - libktoblzcheck1v5
+      - libofx6
+      - python-gtk2
+      - libwebkitgtk-1.0-0
+      - libxml2
+      - libxslt1.1
+      - zlib1g
+      - libaqbanking35-plugins
+      - perl
+      - guile-2.0
+      - libfinance-quote-perl
+      - libwww-perl
+      - libhtml-tree-perl
+      - libhtml-tableextract-perl
+      - libcrypt-ssleay-perl
+      - libdate-manip-perl
+      - libdbd-pgsql
+      - libdbd-mysql
+      - libdbd-sqlite3
+      - gnome-themes-standard
+      - gtk2-engines-pixbuf
+    organize:
+      snap/gnucash-jz/current/bin: bin
+      snap/gnucash-jz/current/etc: etc
+      snap/gnucash-jz/current/lib: lib
+      snap/gnucash-jz/current/libexec: libexec
+      snap/gnucash-jz/current/share: share
+    after:
+      - desktop-gtk2
+    prime:
+      - -noinst
+      - -libexec/gnucash/src
+      - -usr/include
+      - -usr/share/apport
+      - -usr/share/doc
+      - -usr/share/doc-base
+      - -usr/share/libthai
+      - -usr/share/lintian
+      - -usr/share/man
+      - -usr/share/pkgconfig
+      - -var
+    install: |
+      echo Stripping executables
+      strip $SNAPCRAFT_PART_INSTALL/snap/gnucash-jz/current/bin/* 2>/dev/null || /bin/true
+      echo Compiling glib schemas
+      glib-compile-schemas $SNAPCRAFT_PART_INSTALL/snap/gnucash-jz/current/share/glib-2.0/schemas/
+      glib-compile-schemas $SNAPCRAFT_PART_INSTALL/usr/share/glib-2.0/schemas/
+
+  launcher:
+    plugin: dump
+    source: .
+    organize:
+      gnucash-launcher: bin/
+
+  desktop-gtk2:
+    prime:
+      - -usr/include
+      - -usr/share/apport
+      - -usr/share/doc
+      - -usr/share/doc-base
+      - -usr/share/libthai
+      - -usr/share/lintian
+      - -usr/share/man
+      - -usr/share/pkgconfig
+      - -var
