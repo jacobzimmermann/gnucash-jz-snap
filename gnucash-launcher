@@ -1,0 +1,8 @@
+#!/bin/sh
+MYBOX=$(uname -m)-linux-gnu
+export PYTHONPATH=$SNAP/usr/lib/python2.7:$SNAP/usr/lib/python2.7/plat-$MYBOX
+export GUILE_LOAD_PATH=$SNAP/usr/share/guile/2.0:$SNAP/share/gnucash/scm
+export GUILE_LOAD_COMPILED_PATH=$SNAP/usr/lib/$MYBOX/guile/2.0/ccache:$SNAP/lib/gnucash/scm/ccache/2.0
+unset MYBOX
+exec gnucash "$@"
+
