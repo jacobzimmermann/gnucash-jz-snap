@@ -1,5 +1,5 @@
 name: gnucash-jz
-version: 2.6.17-1
+version: 2.6.17-2
 summary: GnuCash is personal and small-business financial-accounting software
 description: |
   Designed to be easy to use, yet powerful and flexible, GnuCash allows you to
@@ -86,6 +86,8 @@ parts:
       usr/lib/*/dbd: usr/lib/
     after:
       - desktop-gtk2
+    stage:
+      - usr/sbin/update-icon-caches
     prime:
       - -noinst
       - -libexec/gnucash/src
