@@ -86,8 +86,6 @@ parts:
       usr/lib/*/dbd: usr/lib/
     after:
       - desktop-gtk2
-    stage:
-      - usr/sbin/update-icon-caches
     prime:
       - -noinst
       - -libexec/gnucash/src
