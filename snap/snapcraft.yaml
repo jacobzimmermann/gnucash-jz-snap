@@ -7,7 +7,7 @@ description: |
   use as a checkbook register, it is based on professional accounting principles
   to ensure balanced books and accurate reports. 
 
-grade: devel # must be 'stable' to release into candidate/stable channels
+grade: stable
 confinement: strict
 
 apps:
