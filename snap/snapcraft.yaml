@@ -18,7 +18,8 @@ apps:
 parts:
   gnucash:
     plugin: autotools
-    source: http://downloads.sourceforge.net/sourceforge/gnucash/gnucash-2.6.18.tar.bz2
+    source: https://github.com/Gnucash/gnucash.git
+    source-tag: 2.6.18
     configflags:
       - --prefix=/snap/gnucash-jz/current
       - --infodir=/noinst
