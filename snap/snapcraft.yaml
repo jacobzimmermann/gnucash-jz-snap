@@ -1,5 +1,5 @@
 name: gnucash-jz
-version: 2.6.17-3
+version: 2.6.18.0
 summary: GnuCash is personal and small-business financial-accounting software
 description: |
   Designed to be easy to use, yet powerful and flexible, GnuCash allows you to
@@ -18,7 +18,7 @@ apps:
 parts:
   gnucash:
     plugin: autotools
-    source: http://downloads.sourceforge.net/sourceforge/gnucash/gnucash-2.6.17.tar.bz2
+    source: http://downloads.sourceforge.net/sourceforge/gnucash/gnucash-2.6.18.tar.bz2
     configflags:
       - --prefix=/snap/gnucash-jz/current
       - --infodir=/noinst
@@ -124,7 +124,7 @@ parts:
 
   launcher:
     plugin: dump
-    source: .
+    source: launcher
     organize:
       gnucash-launcher: bin/
 
