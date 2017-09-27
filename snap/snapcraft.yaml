@@ -112,7 +112,7 @@ parts:
 
   dbi:
     plugin: autotools
-    source: https://sourceforge.net/projects/libdbi/files/libdbi/libdbi-0.9.0/libdbi-0.9.0.tar.gz
+    source: http://archive.ubuntu.com/ubuntu/pool/main/libd/libdbi/libdbi_0.9.0.orig.tar.gz
     configflags:
       - --prefix=/snap/gnucash-jz/current/usr
     organize:
