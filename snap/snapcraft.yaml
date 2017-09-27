@@ -49,6 +49,7 @@ parts:
       - xsltproc
       - zlib1g-dev
       - intltool
+      - swig2.0
     stage-packages:
       - guile-2.0-libs
       - libaqbanking35
