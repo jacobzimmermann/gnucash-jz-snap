@@ -1,5 +1,5 @@
 name: gnucash-jz
-version: 2.6.18-0
+version: 2.6.19
 summary: GnuCash is personal and small-business financial-accounting software
 description: |
   Designed to be easy to use, yet powerful and flexible, GnuCash allows you to
@@ -10,6 +10,12 @@ description: |
 grade: stable
 confinement: strict
 
+plugs:
+    gnome-3-26-1604:
+      interface: content
+      target: $SNAP/gnome-platform
+      default-provider: gnome-3-26-1604:gnome-3-26-1604
+
 apps:
   gnucash:
     command: desktop-launch gnucash-launcher
@@ -19,7 +25,7 @@ parts:
   gnucash:
     plugin: autotools
     source: https://github.com/Gnucash/gnucash.git
-    source-tag: 2.6.18
+    source-tag: 2.6.19
     configflags:
       - --prefix=/snap/gnucash-jz/current
       - --infodir=/noinst
@@ -51,7 +57,6 @@ parts:
       - intltool
       - swig2.0
     stage-packages:
-      - guile-2.0-libs
       - libaqbanking35
       - libgnome-keyring0
       - libgnomecanvas2-0
@@ -77,8 +82,6 @@ parts:
       - libdbd-pgsql
       - libdbd-mysql
       - libdbd-sqlite3
-      - gnome-themes-standard
-      - gtk2-engines-pixbuf
     organize:
       snap/gnucash-jz/current/bin: bin
       snap/gnucash-jz/current/etc: etc
@@ -87,7 +90,7 @@ parts:
       snap/gnucash-jz/current/share: share
       usr/lib/*/dbd: usr/lib/
     after:
-      - desktop-gtk2
+      - desktop-gnome-platform
     prime:
       - -noinst
       - -libexec/gnucash/src
@@ -107,8 +110,6 @@ parts:
       echo Compiling glib schemas
       glib-compile-schemas $SNAPCRAFT_PART_INSTALL/snap/gnucash-jz/current/share/glib-2.0/schemas/
       glib-compile-schemas $SNAPCRAFT_PART_INSTALL/usr/share/glib-2.0/schemas/
-      echo Removing update-icon-caches
-      rm $SNAPCRAFT_PART_INSTALL/usr/sbin/update-icon-caches
 
   dbi:
     plugin: autotools
@@ -130,14 +131,8 @@ parts:
     organize:
       gnucash-launcher: bin/
 
-  desktop-gtk2:
+  # workaround snapcraft trying to outsmart us by copying ldd listed libraries
+  workaround:
+    plugin: nil
     prime:
-      - -usr/include
-      - -usr/share/apport
-      - -usr/share/doc
-      - -usr/share/doc-base
-      - -usr/share/libthai
-      - -usr/share/lintian
-      - -usr/share/man
-      - -usr/share/pkgconfig
-      - -var
+      - "-*"
