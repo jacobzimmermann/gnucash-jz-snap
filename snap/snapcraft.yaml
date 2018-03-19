@@ -19,7 +19,7 @@ plugs:
 apps:
   gnucash:
     command: desktop-launch gnucash-launcher
-    plugs: [home, unity7, cups-control, network, gsettings, mount-observe]
+    plugs: [home, desktop, desktop-legacy, x11, wayland, cups-control, network, gsettings, mount-observe]
 
 parts:
   gnucash:
