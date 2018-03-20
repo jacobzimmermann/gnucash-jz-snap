@@ -24,8 +24,7 @@ apps:
 parts:
   gnucash:
     plugin: autotools
-    source: https://github.com/Gnucash/gnucash.git
-    source-tag: 2.6.19
+    source: .
     configflags:
       - --prefix=/snap/gnucash-jz/current
       - --infodir=/noinst
