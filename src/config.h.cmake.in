@@ -78,7 +78,7 @@
 #cmakedefine HAVE_BOOST
 
 /* Define to 1 if you have the `chown' function. */
-#cmakedefine HAVE_CHOWN 1
+//#cmakedefine HAVE_CHOWN 1
 
 /* define if the compiler supports basic C++11 syntax */
 #cmakedefine HAVE_CXX11 1
