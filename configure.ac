@@ -20,7 +20,7 @@ dnl Process this file with autoconf to produce a configure script.
 
 # Autoconf initialization
 AC_PREREQ(2.60)
-AC_INIT([GnuCash], [2.6.19], [https://bugzilla.gnome.org/page.cgi?id=browse.html&product=GnuCash], , [http://www.gnucash.org/])
+AC_INIT([GnuCash], [2.6.20], [https://bugzilla.gnome.org/page.cgi?id=browse.html&product=GnuCash], , [http://www.gnucash.org/])
 AC_CONFIG_HEADERS(config.h)
 AC_CONFIG_SRCDIR(src/engine/Transaction.h)
 AC_CONFIG_MACRO_DIR([macros])
@@ -1422,6 +1422,7 @@ AC_CONFIG_FILES(
   accounts/de_DE/Makefile
   accounts/el_GR/Makefile
   accounts/en_GB/Makefile
+  accounts/en_IN/Makefile
   accounts/es_ES/Makefile
   accounts/es_MX/Makefile
   accounts/fi_FI/Makefile
@@ -1585,6 +1586,7 @@ AC_CONFIG_FILES(
   src/gnome/gschemas/org.gnucash.dialogs.sxs.gschema.xml.in
   src/gnome/gschemas/org.gnucash.dialogs.totd.gschema.xml.in
   src/gnome/gschemas/org.gnucash.gschema.xml.in
+  src/gnome/gschemas/org.gnucash.general.finance-quote.gschema.xml.in
   src/gnome/gschemas/org.gnucash.window.pages.account.tree.gschema.xml.in
   src/gnome/gschemas/org.gnucash.window.pages.gschema.xml.in
   src/gnome-utils/gschemas/org.gnucash.history.gschema.xml.in

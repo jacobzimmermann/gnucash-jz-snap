@@ -118,7 +118,7 @@
   ;;
   ;; (<fq-method> sym sym ...)
   ;;
-  ;; i.e. (yahoo "RHAT" "LNUX" "IBM")
+  ;; i.e. (alphavantage "RHAT" "LNUX" "IBM")
   ;;
   ;; for currencies, we have
   ;;
@@ -210,7 +210,7 @@
     ;; gnc-fq-helper.  Each item will of the list will be of the
     ;; form:
     ;;
-    ;; (("yahoo" (commodity-1 currency-1 tz-1)
+    ;; (("alphavantage" (commodity-1 currency-1 tz-1)
     ;;           (commodity-2 currency-2 tz-2) ...)
     ;;  ("fidelity_direct" (commodity-3 currency-3 tz-3)
     ;;                     (commodity-4 currency-4 tz-4) ...)
@@ -259,10 +259,10 @@
     ;; their fq-suitable symbol strings.  i.e. turn the former into
     ;; the latter:
     ;;
-    ;; ("yahoo" (commodity-1 currency-1 tz-1)
+    ;; ("alphavantage" (commodity-1 currency-1 tz-1)
     ;;          (commodity-2 currency-2 tz-2) ...)
     ;;
-    ;; ("yahoo" "IBM" "AMD" ...)
+    ;; ("alphavantage" "IBM" "AMD" ...)
     ;;
 
     (if (equal? (car fq-call-data) "currency")
@@ -453,6 +453,13 @@
                #f)))
        prices)))
 
+  ;; Add the alphavantage api key to the environment. This value is taken from
+  ;; the Online Quotes preference tab
+  (let* ((alphavantage-api-key (gnc-prefs-get-string "general.finance-quote" "alphavantage-api-key")))
+        (gnc:debug (string-concatenate (list "ALPHAVANTAGE_API_KEY=" alphavantage-api-key)))
+        (if (not (string-null? alphavantage-api-key))
+            (setenv "ALPHAVANTAGE_API_KEY" alphavantage-api-key)))
+
   ;; FIXME: uses of gnc:warn in here need to be cleaned up.  Right
   ;; now, they'll result in funny formatting.
 
@@ -611,4 +618,4 @@ Run 'gnc-fq-update' as root to install them.") "\n")))
       (format #t "Found Finance::Quote version ~A" (car sources))
       (newline)
 	  (gnc:msg "Found Finance::Quote version " (car sources))
-	  (gnc-quote-source-set-fq-installed (cdr sources))))))
+	  (gnc-quote-source-set-fq-installed (car sources) (cdr sources))))))
