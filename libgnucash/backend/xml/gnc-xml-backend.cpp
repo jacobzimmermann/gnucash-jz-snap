@@ -422,7 +422,7 @@ GncXmlBackend::write_to_file (bool make_backup)
                 /* return FALSE; */
 #endif
             }
-#ifdef HAVE_CHOWN
+#ifdef HAVE_CHOWN__DISABLED_BY_JZ
             /* Don't try to change the owner. Only root can do
                that. */
             if (chown (tmp_name, -1, statbuf.st_gid) != 0)

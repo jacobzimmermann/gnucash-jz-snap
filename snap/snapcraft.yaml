@@ -1,0 +1,137 @@
+name: gnucash-jz
+version: 3.0
+summary: GnuCash is personal and small-business financial-accounting software
+description: |
+  Designed to be easy to use, yet powerful and flexible, GnuCash allows you to
+  track bank accounts, stocks, income and expenses. As quick and intuitive to
+  use as a checkbook register, it is based on professional accounting principles
+  to ensure balanced books and accurate reports. 
+
+grade: stable
+confinement: strict
+
+plugs:
+    gnome-3-26-1604:
+      interface: content
+      target: $SNAP/gnome-platform
+      default-provider: gnome-3-26-1604:gnome-3-26-1604
+
+apps:
+  gnucash:
+    command: desktop-launch gnucash-launcher
+    plugs: [home, desktop, desktop-legacy, x11, wayland, cups-control, network, gsettings, mount-observe]
+
+parts:
+  gtest:
+    plugin: dump
+    source: https://github.com/google/googletest
+    source-type: git
+
+  gnucash:
+    plugin: cmake
+    source: .
+    configflags:
+      - -DCMAKE_INSTALL_PREFIX=/snap/gnucash-jz/current
+      - -DWITH_AQBANKING=ON
+      - -DWITH_PYTHON=ON
+    build-packages:
+      - libboost-all-dev
+      - libgwenhywfar60-dev
+      - libgwengui-gtk3-dev
+      - guile-2.0-dev
+      - imagemagick
+      - libaqbanking-dev
+      - libdbi-dev
+      - libdbd-sqlite3
+      - libgnome-keyring-dev
+      - libofx-dev
+      - libwebkit2gtk-4.0-dev
+      - libxml2-dev
+      - libxslt1-dev
+      - python3
+      - python3-dev
+      - python-gi
+      - gir1.2-gtk-3.0
+      - xsltproc
+      - zlib1g-dev
+      - intltool
+      - swig2.0
+    stage-packages:
+      - libaqbanking35
+      - libgnome-keyring0
+      - libgwenhywfar60
+      - libktoblzcheck1v5
+      - libofx6
+      - gir1.2-gtk-3.0
+      - python3-gi
+      - libwebkit2gtk-4.0-37
+      - libxml2
+      - libxslt1.1
+      - zlib1g
+      - libaqbanking35-plugins
+      - perl
+      - guile-2.0
+      - libfinance-quote-perl
+      - libwww-perl
+      - libhtml-tree-perl
+      - libhtml-tableextract-perl
+      - libcrypt-ssleay-perl
+      - libdate-manip-perl
+      - libdbd-pgsql
+      - libdbd-mysql
+      - libdbd-sqlite3
+    organize:
+      snap/gnucash-jz/current/bin: bin
+      snap/gnucash-jz/current/etc: etc
+      snap/gnucash-jz/current/lib: lib
+      snap/gnucash-jz/current/libexec: libexec
+      snap/gnucash-jz/current/share: share
+      usr/lib/*/dbd: usr/lib/
+    after:
+      - gtest
+      - desktop-gnome-platform
+    prime:
+      - -noinst
+      - -libexec/gnucash/src
+      - -usr/lib/*/libdbi.so*
+      - -usr/include
+      - -usr/share/apport
+      - -usr/share/doc
+      - -usr/share/doc-base
+      - -usr/share/libthai
+      - -usr/share/lintian
+      - -usr/share/man
+      - -usr/share/pkgconfig
+      - -var
+    install: |
+      echo Stripping executables
+      strip $SNAPCRAFT_PART_INSTALL/snap/gnucash-jz/current/bin/* 2>/dev/null || /bin/true
+      echo Compiling glib schemas
+      glib-compile-schemas $SNAPCRAFT_PART_INSTALL/snap/gnucash-jz/current/share/glib-2.0/schemas/
+      glib-compile-schemas $SNAPCRAFT_PART_INSTALL/usr/share/glib-2.0/schemas/
+
+  dbi:
+    plugin: autotools
+    source: http://archive.ubuntu.com/ubuntu/pool/main/libd/libdbi/libdbi_0.9.0.orig.tar.gz
+    configflags:
+      - --prefix=/snap/gnucash-jz/current/usr
+    organize:
+      snap/gnucash-jz/current/usr/lib: usr/lib
+    prime:
+      - -usr/lib/pkgconfig
+      - -usr/lib/*.a
+      - -snap
+    after:
+      - gnucash
+
+  launcher:
+    plugin: dump
+    source: launcher
+    organize:
+      gnucash-launcher: bin/
+
+  # workaround snapcraft trying to outsmart us by copying ldd listed libraries
+  workaround:
+    plugin: nil
+    prime:
+      - "-*"
