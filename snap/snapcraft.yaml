@@ -20,6 +20,18 @@ apps:
   gnucash:
     command: desktop-launch gnucash-launcher
     plugs: [home, desktop, desktop-legacy, x11, wayland, cups-control, network, gsettings, mount-observe]
+  gnc-fq-check:
+    command: gnc-fq-check
+    plugs: [network]
+  gnc-fq-dump:
+    command: gnc-fq-dump
+    plugs: [network, home]
+  gnc-fq-helper:
+    command: gnc-fq-helper
+    plugs: [network]
+  gnc-fq-update:
+    command: gnc-fq-update
+    plugs: [network]
 
 parts:
   gnucash:
@@ -103,7 +115,8 @@ parts:
       - -usr/share/man
       - -usr/share/pkgconfig
       - -var
-    install: |
+    override-build: |
+      snapcraftctl build
       echo Stripping executables
       strip $SNAPCRAFT_PART_INSTALL/snap/gnucash-jz/current/bin/* 2>/dev/null || /bin/true
       echo Compiling glib schemas
